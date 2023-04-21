@@ -12,7 +12,10 @@ module.exports = (sequelize, DataTypes) => {
         as: "Comprador",
         foreignKey: "cliente_id",
       });
-      Ventas.belongsToMany(models.Productos, { through: "ProductosVendidos" });
+      Ventas.belongsToMany(models.Productos, {
+        through: "productosvendidos",
+        as: "ProductosVenta",
+      });
     }
   }
   Ventas.init(

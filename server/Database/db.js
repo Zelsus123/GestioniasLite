@@ -24,6 +24,10 @@ db.productoscomprados = require("./models/productoscomprados")(
   db.connection,
   DataTypes
 );
+db.productosvendidos = require("./models/productosvendidos")(
+  db.connection,
+  DataTypes
+);
 
 //Asociacion de modelos
 db.User.associate(db);
@@ -35,4 +39,5 @@ db.Clientes.associate(db);
 db.Proveedores.associate(db);
 db.Compras.associate(db);
 db.productoscomprados.associate(db);
+db.productosvendidos.associate(db);
 module.exports = db;

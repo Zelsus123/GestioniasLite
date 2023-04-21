@@ -4,6 +4,8 @@ const CargosRoutes = require("./cargos.routes");
 const ProductosRoutes = require("./productos.routes");
 const ProveedoresRoutes = require("./proveedores.routes");
 const ComprasRoutes = require("./compras.routes");
+const ClientesRoutes = require("./clientes.routes");
+const VentasRoutes = require("./ventas.routes");
 const RouterPrincipal = express.Router();
 
 RouterPrincipal.get("/", (req, res) => {
@@ -15,5 +17,7 @@ RouterPrincipal.use("/cargos", CargosRoutes);
 RouterPrincipal.use("/productos", ProductosRoutes);
 RouterPrincipal.use("/proveedores", ProveedoresRoutes);
 RouterPrincipal.use("/compras", ComprasRoutes);
+RouterPrincipal.use("/clientes", ClientesRoutes);
+RouterPrincipal.use("/ventas", VentasRoutes);
 
 module.exports = RouterPrincipal;
