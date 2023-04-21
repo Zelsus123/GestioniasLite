@@ -24,6 +24,7 @@ ProveedoresController.createProveedor = async (req, res) => {
       rif: req.body.rif,
       telefono: req.body.telefono,
       direccion: req.body.direccion,
+      correo: req.body.correo,
     });
     res.json("Registro creado exitosamente");
   } catch (error) {
@@ -66,6 +67,7 @@ ProveedoresController.updateProveedor = async (req, res) => {
         rif: req.body.rif,
         telefono: req.body.telefono,
         direccion: req.body.direccion,
+        correo: req.body.correo,
       },
       {
         where: { id: id },

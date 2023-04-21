@@ -19,7 +19,7 @@ app.use("/", RouterPrincipal);
 //Escucha del servidor
 app.listen(Config.PORT, () => {
   console.log(`La app esta inicializada en http://localhost:${Config.PORT}`);
-  connection.sync({ force: true }).then(() => {
+  connection.sync({ force: false }).then(() => {
     console.log("Conexion con la base de datos exitosa");
   });
 });
