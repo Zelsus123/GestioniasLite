@@ -21,6 +21,11 @@ module.exports = (sequelize, DataTypes) => {
         as: "Compras",
         foreignKey: "producto_id",
       });
+      Productos.belongsToMany(models.Devoluciones, {
+        through: "productosdevueltos",
+        as: "Devoluciones",
+        foreignKey: "producto_id",
+      });
     }
   }
   Productos.init(
@@ -30,6 +35,11 @@ module.exports = (sequelize, DataTypes) => {
       stock: DataTypes.INTEGER,
       precio: DataTypes.DECIMAL,
       descripcion: DataTypes.STRING,
+      precio_venta: DataTypes.DECIMAL,
+      devoluciones: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+      },
     },
     {
       sequelize,

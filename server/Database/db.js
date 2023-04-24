@@ -20,6 +20,12 @@ db.Ventas = require("./models/ventas")(db.connection, DataTypes);
 db.Clientes = require("./models/clientes")(db.connection, DataTypes);
 db.Proveedores = require("./models/proveedores")(db.connection, DataTypes);
 db.Compras = require("./models/compras")(db.connection, DataTypes);
+db.General = require("./models/general")(db.connection, DataTypes);
+db.Devoluciones = require("./models/devoluciones")(db.connection, DataTypes);
+db.ProductosDevueltos = require("./models/productosdevueltos")(
+  db.connection,
+  DataTypes
+);
 db.productoscomprados = require("./models/productoscomprados")(
   db.connection,
   DataTypes
@@ -40,4 +46,6 @@ db.Proveedores.associate(db);
 db.Compras.associate(db);
 db.productoscomprados.associate(db);
 db.productosvendidos.associate(db);
+db.Devoluciones.associate(db);
+db.ProductosDevueltos.associate(db);
 module.exports = db;
