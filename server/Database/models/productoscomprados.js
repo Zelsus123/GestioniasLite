@@ -12,7 +12,10 @@ module.exports = (sequelize, DataTypes) => {
   productoscomprados.init(
     {
       cantidad: DataTypes.INTEGER,
-      precio: DataTypes.DECIMAL,
+      precioproducto: DataTypes.DECIMAL,
+      totaliva: DataTypes.DECIMAL,
+      preciototal: DataTypes.DECIMAL,
+      exentoiva: DataTypes.BOOLEAN,
     },
     {
       sequelize,

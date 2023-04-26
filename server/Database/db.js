@@ -26,11 +26,21 @@ db.ProductosDevueltos = require("./models/productosdevueltos")(
   db.connection,
   DataTypes
 );
+db.Cajas = require("./models/cajas")(db.connection, DataTypes);
+db.MetodosDePago = require("./models/metodosdepago")(db.connection, DataTypes);
+db.Pagos = require("./models/pagos")(db.connection, DataTypes);
 db.productoscomprados = require("./models/productoscomprados")(
   db.connection,
   DataTypes
 );
 db.productosvendidos = require("./models/productosvendidos")(
+  db.connection,
+  DataTypes
+);
+db.PagosNomina = require("./models/pagosnomina")(db.connection, DataTypes);
+db.Ingresos = require("./models/ingresos")(db.connection, DataTypes);
+db.Egresos = require("./models/egresos")(db.connection, DataTypes);
+db.CierresParciales = require("./models/cierresparciales")(
   db.connection,
   DataTypes
 );
@@ -48,4 +58,8 @@ db.productoscomprados.associate(db);
 db.productosvendidos.associate(db);
 db.Devoluciones.associate(db);
 db.ProductosDevueltos.associate(db);
+db.MetodosDePago.associate(db);
+db.Pagos.associate(db);
+db.PagosNomina.associate(db);
+db.CierresParciales.associate(db);
 module.exports = db;

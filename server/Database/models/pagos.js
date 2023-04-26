@@ -1,7 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class productosvendidos extends Model {
+  class pagos extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -9,20 +9,22 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      pagos.belongsTo(models.MetodosDePago, {
+        as: "MetodoPago",
+        foreignKey: "metodo_pago_id",
+      });
+      pagos.belongsTo(models.Ventas, { as: "Venta", foreignKey: "venta_id" });
     }
   }
-  productosvendidos.init(
+  pagos.init(
     {
-      cantidad: DataTypes.INTEGER,
-      precioproducto: DataTypes.DECIMAL,
-      totaliva: DataTypes.DECIMAL,
-      preciototal: DataTypes.DECIMAL,
-      exentoiva: DataTypes.BOOLEAN,
+      metodo: DataTypes.STRING,
+      monto: DataTypes.DECIMAL,
     },
     {
       sequelize,
-      modelName: "productosvendidos",
+      modelName: "pagos",
     }
   );
-  return productosvendidos;
+  return pagos;
 };

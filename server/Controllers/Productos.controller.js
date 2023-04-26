@@ -23,6 +23,7 @@ ProductosController.createProducto = async (req, res) => {
       stock: req.body.stock,
       precio: req.body.precio,
       descripcion: req.body.descripcion,
+      precio_venta: req.body.precio_venta,
     });
     const files = req.files;
 

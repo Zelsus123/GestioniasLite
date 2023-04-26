@@ -16,12 +16,23 @@ module.exports = (sequelize, DataTypes) => {
         as: "Devoluciones",
         foreignKey: "venta_id",
       });
+      Ventas.belongsToMany(models.Productos, {
+        as: "Productos",
+        through: "productosvendidos",
+        foreignKey: "venta_id",
+      });
+      Ventas.belongsTo(models.Cajas, { as: "Caja", foreignKey: "caja_id" });
+      Ventas.hasMany(models.Pagos, { as: "Pagos", foreignKey: "venta_id" });
     }
   }
   Ventas.init(
     {
       fecha: DataTypes.DATE,
-      monto: DataTypes.DECIMAL,
+      montoproductos: DataTypes.DECIMAL,
+      iva: DataTypes.DECIMAL,
+      montoiva: DataTypes.DECIMAL,
+      montototal: DataTypes.DECIMAL,
+      descuento: DataTypes.DECIMAL,
     },
     {
       sequelize,

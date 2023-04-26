@@ -6,7 +6,7 @@ ClientesController.getAll = async (req, res) => {
     const clientes = await Clientes.findAll({
       include: {
         association: "Compras",
-        attributes: ["fecha", "monto"],
+        attributes: ["fecha", "montototal"],
       },
     });
     res.json(clientes);
@@ -21,7 +21,7 @@ ClientesController.getById = async (req, res) => {
     const cliente = await Clientes.findByPk(id, {
       include: {
         association: "Compras",
-        attributes: ["fecha", "monto"],
+        attributes: ["fecha", "montototal"],
       },
     });
     res.json(cliente);

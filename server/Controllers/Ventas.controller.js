@@ -9,11 +9,17 @@ const VentasController = {};
 VentasController.getAll = async (req, res) => {
   try {
     const ventas = await Ventas.findAll({
-      include: {
-        association: "Comprador",
-        attributes: ["nombre", "cedula"],
-      },
-      attributes: ["fecha", "monto"],
+      include: [
+        {
+          association: "Comprador",
+          attributes: ["nombre", "cedula"],
+        },
+        {
+          association: "Caja",
+          attributes: ["caja"],
+        },
+      ],
+      attributes: ["fecha", "montototal"],
     });
     res.json(ventas);
   } catch (error) {
@@ -27,14 +33,24 @@ VentasController.getById = async (req, res) => {
     const venta = await Ventas.findByPk(id, {
       include: [
         {
+          association: "Caja",
+          attributes: ["caja"],
+        },
+        {
           association: "Comprador",
           attributes: ["nombre", "cedula"],
         },
         {
-          association: "ProductosVenta",
+          association: "Productos",
           attributes: ["marca", "producto", "precio"],
           through: {
-            attributes: ["cantidad", "total"],
+            attributes: [
+              "cantidad",
+              "precioproducto",
+              "totaliva",
+              "preciototal",
+              "exentoiva",
+            ],
           },
         },
       ],
@@ -47,7 +63,7 @@ VentasController.getById = async (req, res) => {
 
 VentasController.createVenta = async (req, res) => {
   try {
-    const { cliente_id, fecha, monto, productos } = req.body;
+    const { cliente_id, fecha, iva, descuento, caja_id, productos } = req.body;
 
     // Verificar si el cliente existe en la base de datos
     const cliente = await Clientes.findByPk(cliente_id);
@@ -57,12 +73,23 @@ VentasController.createVenta = async (req, res) => {
       cliente_id = nuevoCliente.id;
     }
 
-    const venta = await Ventas.create({ cliente_id, fecha, monto, productos });
+    const venta = await Ventas.create({
+      cliente_id,
+      fecha,
+      descuento,
+      iva,
+      productos,
+      caja_id,
+    });
+
+    let totalProductos = 0;
+    let totalIva = 0;
+    let precioTotal = 0;
 
     const errores = [];
 
     for (const producto of productos) {
-      const { producto_id, cantidad } = producto;
+      const { producto_id, cantidad, exentoiva } = producto;
       // Conseguir el producto en la base de datos
       const productoEncontrado = await Productos.findByPk(producto_id);
       if (!productoEncontrado) {
@@ -78,13 +105,40 @@ VentasController.createVenta = async (req, res) => {
         await productoEncontrado.update({
           stock: productoEncontrado.stock - cantidad,
         });
-        const precioVentaProducto = productoEncontrado.precio * cantidad;
+        const precioVentaProducto = productoEncontrado.precio_venta * cantidad;
+        let totaliva = 0;
+        if (exentoiva) {
+          totaliva = 0;
+        } else {
+          totaliva = precioVentaProducto * (venta.iva / 100);
+        }
+        const preciototal = precioVentaProducto + totaliva;
+
+        // Agregar montos a las variables de totales
+        totalProductos += preciototal;
+        totalIva += totaliva;
+
         // Crear registro en la tabla intermedia
-        await Ventas.addProducto(productoEncontrado, {
-          through: { cantidad, total: precioVentaProducto },
+        await venta.addProducto(productoEncontrado.id, {
+          through: {
+            cantidad,
+            exentoiva,
+            precioproducto: precioVentaProducto,
+            totaliva,
+            preciototal,
+          },
         });
       }
     }
+
+    // Sumar los totales de los productos a los montos de la venta
+    precioTotal = totalProductos + totalIva - descuento;
+    await venta.update({
+      montoproductos: totalProductos,
+      iva: iva,
+      montoiva: totalIva,
+      montototal: precioTotal,
+    });
 
     if (errores.length > 0) {
       res.status(400).json({ errores });
@@ -93,14 +147,14 @@ VentasController.createVenta = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error al procesar la venta" });
+    res.status(500).json({ message: error.message });
   }
 };
 
 VentasController.updateVenta = async (req, res) => {
   try {
     const { id } = req.params;
-    const { cliente_id, fecha, monto, productos } = req.body;
+    const { cliente_id, fecha, monto, productos, caja_id } = req.body;
 
     // Buscar la venta por su ID
     const venta = await Ventas.findByPk(id);
@@ -122,11 +176,11 @@ VentasController.updateVenta = async (req, res) => {
     }
 
     // Actualizar los datos de la venta
-    await venta.update({ cliente_id, fecha, monto });
+    await venta.update({ cliente_id, fecha, monto, caja_id });
 
     // Actualizar la lista de productos vendidos
     for (const producto of productos) {
-      const { producto_id, cantidad } = producto;
+      const { producto_id, cantidad, exentoiva } = producto;
 
       // Buscar el registro de este producto en la tabla intermedia
       const ventaProducto = await ProductosVendidos.findOne({
@@ -138,9 +192,25 @@ VentasController.updateVenta = async (req, res) => {
         if (cantidad > 0) {
           const productoEncontrado = await Productos.findByPk(producto_id);
           if (productoEncontrado) {
-            const precioVentaProducto = productoEncontrado.precio * cantidad;
-            await venta.addProducto(productoEncontrado, {
-              through: { cantidad, total: precioVentaProducto },
+            const precioVentaProducto =
+              productoEncontrado.precio_venta * cantidad;
+            let totaliva = 0;
+            if (exentoiva) {
+              totaliva = 0;
+            } else {
+              totaliva = precioVentaProducto * (venta.iva / 100);
+            }
+            const preciototal = precioVentaProducto + totaliva;
+
+            // Crear registro en la tabla intermedia
+            await venta.addProducto(productoEncontrado.id, {
+              through: {
+                cantidad,
+                exentoiva,
+                precioproducto: precioVentaProducto,
+                totaliva,
+                preciototal,
+              },
             });
           }
         }
@@ -149,10 +219,21 @@ VentasController.updateVenta = async (req, res) => {
         if (cantidad > 0) {
           const productoEncontrado = await Productos.findByPk(producto_id);
           if (productoEncontrado) {
-            const precioVentaProducto = productoEncontrado.precio * cantidad;
+            const precioVentaProducto =
+              productoEncontrado.precio_venta * cantidad;
+            let totaliva = 0;
+            if (exentoiva) {
+              totaliva = 0;
+            } else {
+              totaliva = precioVentaProducto * (venta.iva / 100);
+            }
+            const preciototal = precioVentaProducto + totaliva;
             await ventaProducto.update({
               cantidad,
-              total: precioVentaProducto,
+              exentoiva,
+              totaliva,
+              precioproducto: precioVentaProducto,
+              preciototal,
             });
           }
         } else {

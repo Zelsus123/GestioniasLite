@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       //Usuario pertenece a un rol
       User.belongsTo(models.Cargos, { as: "cargo", foreignKey: "cargo_id" });
+      User.hasMany(models.PagosNomina, { as: "Nomina", foreignKey: "user_id" });
     }
   }
   User.init(

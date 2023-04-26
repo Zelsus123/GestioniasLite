@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Devoluciones.belongsToMany(models.Productos, {
-        as: "ProductosDevueltos",
+        as: "Productos",
         through: "productosdevueltos",
         foreignKey: "producto_id",
       });
@@ -22,6 +22,8 @@ module.exports = (sequelize, DataTypes) => {
   Devoluciones.init(
     {
       fecha: DataTypes.DATE,
+      monto_productos: DataTypes.DECIMAL,
+      monto_iva: DataTypes.DECIMAL,
       monto_total: DataTypes.DECIMAL,
     },
     {

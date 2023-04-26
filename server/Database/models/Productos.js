@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       Productos.belongsToMany(models.Ventas, {
         through: "productosvendidos",
         as: "Ventas",
+        foreignKey: "producto_id",
       });
       Productos.belongsToMany(models.Compras, {
         through: "productoscomprados",
@@ -24,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       Productos.belongsToMany(models.Devoluciones, {
         through: "productosdevueltos",
         as: "Devoluciones",
-        foreignKey: "producto_id",
+        foreignKey: "devolucion_id",
       });
     }
   }
