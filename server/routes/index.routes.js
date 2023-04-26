@@ -9,6 +9,7 @@ const VentasRoutes = require("./ventas.routes");
 const GeneralRoutes = require("./general.routes");
 const DevolucionesRoutes = require("./devoluciones.routes");
 const CajasRoutes = require("./cajas.routes");
+const CierresRoutes = require("./cierres.routes");
 const RouterPrincipal = express.Router();
 
 RouterPrincipal.get("/", (req, res) => {
@@ -25,5 +26,6 @@ RouterPrincipal.use("/ventas", VentasRoutes);
 RouterPrincipal.use("/general", GeneralRoutes);
 RouterPrincipal.use("/devoluciones", DevolucionesRoutes);
 RouterPrincipal.use("/cajas", CajasRoutes);
+RouterPrincipal.use("/cierres", CierresRoutes);
 
 module.exports = RouterPrincipal;

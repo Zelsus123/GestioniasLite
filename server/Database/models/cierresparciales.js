@@ -13,6 +13,14 @@ module.exports = (sequelize, DataTypes) => {
         as: "Caja",
         foreignKey: "caja_id",
       });
+      cierresparciales.belongsToMany(models.Ventas, {
+        as: "Ventas",
+        through: "ventas_cierres_parciales",
+      });
+      cierresparciales.belongsToMany(models.Devoluciones, {
+        as: "Devoluciones",
+        through: "cierres_devoluciones",
+      });
     }
   }
   cierresparciales.init(
@@ -20,9 +28,12 @@ module.exports = (sequelize, DataTypes) => {
       fecha: DataTypes.DATEONLY,
       hora: DataTypes.TIME,
       montototal: DataTypes.DECIMAL,
-      montodolaresefectivo: DataTypes.DECIMAL,
-      montobolivaresefectivo: DataTypes.DECIMAL,
-      otrosmontos: DataTypes.DECIMAL,
+      montoproductos: DataTypes.DECIMAL,
+      montoiva: DataTypes.DECIMAL,
+      devolucionesproductos: DataTypes.DECIMAL,
+      devolucionesiva: DataTypes.DECIMAL,
+      devolucionestotal: DataTypes.DECIMAL,
+      totalcierre: DataTypes.DECIMAL,
     },
     {
       sequelize,

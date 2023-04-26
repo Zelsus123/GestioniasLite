@@ -23,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
       });
       Ventas.belongsTo(models.Cajas, { as: "Caja", foreignKey: "caja_id" });
       Ventas.hasMany(models.Pagos, { as: "Pagos", foreignKey: "venta_id" });
+      Ventas.belongsToMany(models.CierresParciales, {
+        as: "Cierres",
+        through: "ventas_cierres_parciales",
+      });
     }
   }
   Ventas.init(

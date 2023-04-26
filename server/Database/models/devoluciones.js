@@ -17,6 +17,14 @@ module.exports = (sequelize, DataTypes) => {
         as: "DetalleVenta",
         foreignKey: "venta_id",
       });
+      Devoluciones.belongsToMany(models.CierresParciales, {
+        as: "Cierre",
+        through: "cierres_devoluciones",
+      });
+      Devoluciones.belongsTo(models.Cajas, {
+        as: "Cajas",
+        foreignKey: "caja_id",
+      });
     }
   }
   Devoluciones.init(
