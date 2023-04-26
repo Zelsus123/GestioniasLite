@@ -3,6 +3,7 @@ const {
   Ventas,
   Ingresos,
   Devoluciones,
+  Egresos,
 } = require("../Database/db");
 const CierresController = {};
 
@@ -146,16 +147,20 @@ CierresController.createCierre = async (req, res) => {
 
     if (ventasSinCierre.length > 0) {
       await cierre.addVentas(ventasSinCierre);
+      await Ingresos.create({
+        descripcion: `Ventas del dia de la caja ${caja_id}`,
+        fecha: new Date(),
+        monto: cierreData.montototal,
+      });
     }
     if (devolucionesSinCierre.length > 0) {
       await cierre.addDevoluciones(devolucionesSinCierre);
+      await Egresos.create({
+        descripcion: `Devoluciones del dia de la caja ${caja_id}`,
+        fecha: new Date(),
+        monto: cierreData.devolucionestotal,
+      });
     }
-
-    await Ingresos.create({
-      descripcion: `Ventas del dia de la caja ${caja_id}`,
-      fecha: new Date(),
-      monto: cierreData.montototal,
-    });
 
     res.json("Cierre creado exitosamente");
   } catch (error) {

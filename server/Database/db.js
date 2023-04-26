@@ -44,6 +44,10 @@ db.CierresParciales = require("./models/cierresparciales")(
   db.connection,
   DataTypes
 );
+db.CierresTotales = require("./models/cierrestotales")(
+  db.connection,
+  DataTypes
+);
 
 //Asociacion de modelos
 db.User.associate(db);
@@ -62,4 +66,5 @@ db.MetodosDePago.associate(db);
 db.Pagos.associate(db);
 db.PagosNomina.associate(db);
 db.CierresParciales.associate(db);
+db.CierresTotales.associate(db);
 module.exports = db;
