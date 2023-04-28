@@ -3,6 +3,7 @@ const {
   Ventas,
   productosvendidos,
   Clientes,
+  Pagos,
 } = require("../Database/db");
 const VentasController = {};
 
@@ -53,6 +54,9 @@ VentasController.getById = async (req, res) => {
             ],
           },
         },
+        {
+          association: "Pagos",
+        },
       ],
     });
     res.json(venta);
@@ -63,7 +67,8 @@ VentasController.getById = async (req, res) => {
 
 VentasController.createVenta = async (req, res) => {
   try {
-    const { cliente_id, fecha, iva, descuento, caja_id, productos } = req.body;
+    const { cliente_id, fecha, iva, descuento, caja_id, productos, pagos } =
+      req.body;
 
     // Verificar si el cliente existe en la base de datos
     const cliente = await Clientes.findByPk(cliente_id);
@@ -85,8 +90,19 @@ VentasController.createVenta = async (req, res) => {
     let totalProductos = 0;
     let totalIva = 0;
     let precioTotal = 0;
+    let TotalPagado = 0;
 
     const errores = [];
+
+    for (const pago of pagos) {
+      const { monto, metodo_pago_id } = pago;
+      const pagorealizado = await Pagos.create({
+        monto,
+        metodo_pago_id,
+        venta_id: venta.id,
+      });
+      TotalPagado += pagorealizado.monto;
+    }
 
     for (const producto of productos) {
       const { producto_id, cantidad, exentoiva } = producto;
@@ -133,6 +149,7 @@ VentasController.createVenta = async (req, res) => {
 
     // Sumar los totales de los productos a los montos de la venta
     precioTotal = totalProductos + totalIva - descuento;
+
     await venta.update({
       montoproductos: totalProductos,
       iva: iva,

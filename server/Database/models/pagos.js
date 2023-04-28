@@ -18,7 +18,6 @@ module.exports = (sequelize, DataTypes) => {
   }
   pagos.init(
     {
-      metodo: DataTypes.STRING,
       monto: DataTypes.DECIMAL,
     },
     {
