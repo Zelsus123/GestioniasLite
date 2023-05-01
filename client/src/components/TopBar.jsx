@@ -14,8 +14,8 @@ import {
 
 export const TopBar = () => {
   const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-  const tema = useSelector((state) => state.theme);
+  const tema = useSelector((state) => state.theme.theme);
+  const colors = tokens(tema);
   const dispatch = useDispatch();
 
   const handleChangeTheme = () => {
@@ -25,11 +25,7 @@ export const TopBar = () => {
   return (
     <Box display="flex" justifyContent="space-between" p={2}>
       {/* SEARCH BAR */}
-      <Box
-        display="flex"
-        backgroundColor={colors.AzulPrimario[500]}
-        borderRadius="3px"
-      >
+      <Box display="flex" backgroundColor={colors.Gris[400]} borderRadius="3px">
         <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Buscar..." />
         <IconButton type="button" sx={{ p: 1 }}>
           <SearchOutlined />
@@ -39,11 +35,7 @@ export const TopBar = () => {
       {/* ICONOS */}
       <Box display="flex">
         <IconButton onClick={handleChangeTheme}>
-          {theme.palette.mode === "dark" ? (
-            <LightModeOutlined />
-          ) : (
-            <DarkModeOutlined />
-          )}
+          {tema === "dark" ? <LightModeOutlined /> : <DarkModeOutlined />}
         </IconButton>
         <IconButton>
           <NotificationsOutlined />
