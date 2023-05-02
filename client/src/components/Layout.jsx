@@ -16,8 +16,6 @@ const ContentWrapper = styled(Box)(({ theme }) => ({
   padding: theme.spacing(1),
   marginTop: 0,
   marginLeft: theme.spacing(4), // Ajusta el margen izquierdo según el ancho del sidebar
-  backgroundColor:
-    tema === "light" ? colors.Gris[200] : colors.AzulPrimario[400],
 }));
 
 export const Layout = ({ children }) => {

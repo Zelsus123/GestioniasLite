@@ -1,4 +1,5 @@
 import { createTheme } from "@mui/material/styles";
+import { useSelector } from "react-redux";
 
 export const tokens = (mode) => ({
   ...(mode === "light"
@@ -164,4 +165,6 @@ const themeSettings = (mode) => {
   };
 };
 
-export const blueTheme = createTheme(themeSettings);
+export const blueTheme = (mode) => {
+  return createTheme(themeSettings);
+};
