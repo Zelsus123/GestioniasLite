@@ -6,6 +6,7 @@ import store from "./features/store";
 import { ThemeProvider } from "@mui/material";
 import { blueTheme } from "./themes/blueTheme";
 import { ProSidebarProvider } from "react-pro-sidebar";
+import "./main.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

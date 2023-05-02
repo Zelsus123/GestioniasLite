@@ -5,7 +5,7 @@ import { MenuOutlined } from "@mui/icons-material";
 export const SideBarLateral = () => {
   const { collapseSidebar } = useProSidebar();
   return (
-    <Sidebar style={{ height: "100vh" }}>
+    <Sidebar style={{ height: "100vh", position: "relative" }}>
       <Menu>
         <MenuItem
           icon={<MenuOutlined />}
