@@ -21,7 +21,7 @@ export const Layout = ({ children }) => {
             marginTop: "10px",
             marginLeft: "20px",
             marginRight: "20px",
-            overflow: "hidden",
+            overflowX: "hidden",
           }}
         >
           {children}
