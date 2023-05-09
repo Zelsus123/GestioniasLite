@@ -1,55 +1,50 @@
+import { Box, IconButton, InputBase, useTheme } from "@mui/material";
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
+import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
+import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
+import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
+import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import { toggleTheme } from "../features/theme/themeSlice";
+import { useDispatch, useSelector } from "react-redux";
 import React from "react";
-import { Box, IconButton, useTheme, InputBase } from "@mui/material";
-import { tokens } from "../themes/blueTheme";
-import { useSelector, useDispatch } from "react-redux";
-import { toggleTheme } from "../features/reducers/themeSlice";
-import {
-  SearchOutlined,
-  DarkModeOutlined,
-  LightModeOutlined,
-  NotificationsOutlined,
-  SettingsOutlined,
-  PersonOutlined,
-} from "@mui/icons-material";
 
 export const TopBar = () => {
   const theme = useTheme();
-  const tema = useSelector((state) => state.theme.theme);
-  const colors = tokens(tema);
   const dispatch = useDispatch();
-
-  const handleChangeTheme = () => {
-    dispatch(toggleTheme());
-  };
-
+  const tema = useSelector((state) => state.theme);
   return (
-    <Box
-      display="flex"
-      justifyContent="space-between"
-      p={2}
-      sx={{ position: "relative" }}
-    >
-      {/* SEARCH BAR */}
-      <Box display="flex" backgroundColor={colors.Gris[400]} borderRadius="3px">
-        <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Buscar..." />
-        <IconButton type="button" sx={{ p: 1 }}>
-          <SearchOutlined />
+    <Box display="flex" justifyContent="space-between" p={2}>
+      <Box
+        display="flex"
+        borderRadius="3px"
+        sx={{ backgroundColor: theme.palette.primary.main, color: "#fff" }}
+      >
+        <InputBase
+          sx={{ ml: 2, flex: 1, color: "#fff" }}
+          placeholder="Buscar..."
+        />
+        <IconButton type="button" sx={{ p: 1, color: "#fff" }}>
+          <SearchOutlinedIcon />
         </IconButton>
       </Box>
 
-      {/* ICONOS */}
       <Box display="flex">
-        <IconButton onClick={handleChangeTheme}>
-          {tema === "dark" ? <LightModeOutlined /> : <DarkModeOutlined />}
+        <IconButton onClick={() => dispatch(toggleTheme())}>
+          {theme.palette.mode === "dark" ? (
+            <LightModeOutlinedIcon />
+          ) : (
+            <DarkModeOutlinedIcon />
+          )}
         </IconButton>
         <IconButton>
-          <NotificationsOutlined />
+          <NotificationsOutlinedIcon />
         </IconButton>
         <IconButton>
-          <SettingsOutlined />
+          <SettingsOutlinedIcon />
         </IconButton>
         <IconButton>
-          <PersonOutlined />
+          <PersonOutlinedIcon />
         </IconButton>
       </Box>
     </Box>

@@ -1,22 +1,25 @@
-import React from "react";
-import { tokens } from "./themes/blueTheme";
-import { useTheme } from "@emotion/react";
-import { useSelector } from "react-redux";
-import { Layout } from "./components/Layout";
+import { Box, CssBaseline } from "@mui/material";
+import { ThemeProvider } from "@emotion/react";
+import { lightTheme, darkTheme } from "./themes/blueTheme.js";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleTheme } from "./features/theme/themeSlice.js";
+import { TopBar } from "./components/TopBar.jsx";
+import { Router } from "./Routes/Router.jsx";
+import { SideBarLateral } from "./components/SideBar.jsx";
+import { Layout } from "./components/Layout.jsx";
 
-import { Dashboard } from "./pages/Dashboard";
+export default function App() {
+  const theme = useSelector((state) => state.theme);
+  const dispatch = useDispatch();
 
-function App() {
-  const theme = useTheme();
-  const tema = useSelector((state) => state.theme.theme);
-  const colors = tokens(tema);
   return (
-    <div className="App">
+    <ThemeProvider theme={theme.darkTheme ? darkTheme : lightTheme}>
+      <CssBaseline />
       <Layout>
-        <Dashboard />
+        <Box sx={{ overflowY: "scroll", overflowX: "hidden", height: "100vh" }}>
+          <Router />
+        </Box>
       </Layout>
-    </div>
+    </ThemeProvider>
   );
 }
-
-export default App;

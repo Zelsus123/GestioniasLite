@@ -1,33 +1,32 @@
+import { Box } from "@mui/material";
 import React from "react";
-import { styled } from "@mui/material/styles";
-import { Box, useTheme } from "@mui/material";
-import { useSelector } from "react-redux";
-import { tokens } from "../themes/blueTheme";
+import { SideBarLateral } from "./SideBar";
 import { TopBar } from "./TopBar";
-import { SideBarLateral as SideBar } from "./SideBar";
-
-const LayoutWrapper = styled(Box)({
-  display: "flex",
-  marginTop: 0,
-});
-
-const ContentWrapper = styled(Box)(({ theme }) => ({
-  flexGrow: 1,
-  padding: theme.spacing(1),
-  marginTop: 0,
-  marginLeft: theme.spacing(4), // Ajusta el margen izquierdo según el ancho del sidebar
-}));
 
 export const Layout = ({ children }) => {
   return (
-    <>
-      <LayoutWrapper>
-        <SideBar />
-        <ContentWrapper>
-          <TopBar />
+    <Box
+      display="flex"
+      width="100%"
+      sx={{
+        overflow: "hidden",
+      }}
+    >
+      <SideBarLateral />
+
+      <Box width="100%">
+        <TopBar />
+        <Box
+          sx={{
+            marginTop: "10px",
+            marginLeft: "20px",
+            marginRight: "20px",
+            overflow: "hidden",
+          }}
+        >
           {children}
-        </ContentWrapper>
-      </LayoutWrapper>
-    </>
+        </Box>
+      </Box>
+    </Box>
   );
 };
