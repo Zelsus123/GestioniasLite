@@ -33,7 +33,14 @@ export const Productos = () => {
             Agregar Producto
           </Button>
         </Box>
-        <Box marginTop="10px">
+        <Box
+          marginTop="10px"
+          sx={{
+            backgroundColor: "background.paper",
+            borderRadius: "5px",
+            boxShadow: 2,
+          }}
+        >
           <ListaProductos />
         </Box>
       </Box>

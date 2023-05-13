@@ -35,7 +35,7 @@ export const SideBarLateral = () => {
         justifyContent: "center",
         borderRadius: "0 10px 10px 0",
         transition: "0.5s",
-        position: "relative", // Agregamos position relative para que el icono pueda ser posicionado absolutamente en relación a este contenedor.
+        position: "sticky", // Agregamos position relative para que el icono pueda ser posicionado absolutamente en relación a este contenedor.
       }}
     >
       <IconButton
@@ -65,7 +65,7 @@ export const SideBarLateral = () => {
           textAlign: "center",
           height: "200px",
           width: "100%",
-          marginTop: open ? "250px" : "120px",
+          marginTop: open ? "270px" : "140px",
           flexDirection: "column",
         }}
       >

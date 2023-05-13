@@ -16,7 +16,7 @@ export default function App() {
     <ThemeProvider theme={theme.darkTheme ? darkTheme : lightTheme}>
       <CssBaseline />
       <Layout>
-        <Box sx={{ overflowY: "hidden", overflowX: "hidden", height: "100vh" }}>
+        <Box sx={{ overflow: "hidden" }}>
           <Router />
         </Box>
       </Layout>

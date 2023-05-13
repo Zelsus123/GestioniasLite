@@ -20,19 +20,20 @@ export const LastOperationsTable = () => {
       sx={{
         width: "49%",
         height: "350px",
-        backgroundColor: "primary.main",
+        backgroundColor: "background.paper",
         borderRadius: "5px",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
         mt: "10px",
+        boxShadow: 3,
       }}
     >
       <Box sx={{ height: "1%" }}></Box>
       <TableContainer
         sx={{
-          backgroundColor: theme.palette.background.default,
+          backgroundColor: theme.palette.background.paper,
           width: "98%",
           height: "90%",
           borderRadius: "5px",

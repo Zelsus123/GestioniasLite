@@ -13,6 +13,10 @@ export const lightTheme = createTheme({
       main: "#0e2067",
     },
     divider: "rgba(51,47,47,0.12)",
+    background: {
+      default: "#eeeeee",
+      paper: "#fff",
+    },
   },
 });
 
@@ -29,7 +33,11 @@ export const darkTheme = createTheme({
       main: "#0e2067",
     },
 
-    divider: "rgba(51,47,47,0.12)",
+    divider: "#efefef",
+    background: {
+      default: "#121212",
+      paper: "#414141",
+    },
   },
   components: {
     MuiDataGrid: {

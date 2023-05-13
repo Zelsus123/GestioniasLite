@@ -4,6 +4,7 @@ import AddShoppingCartOutlinedIcon from "@mui/icons-material/AddShoppingCartOutl
 import WarehouseOutlinedIcon from "@mui/icons-material/WarehouseOutlined";
 import Groups2OutlinedIcon from "@mui/icons-material/Groups2Outlined";
 import Person2OutlinedIcon from "@mui/icons-material/Person2Outlined";
+import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
 export const SideBarData = [
   {
     text: "Inicio",
@@ -19,6 +20,11 @@ export const SideBarData = [
     text: "Clientes",
     to: "/clientes",
     Icon: <Groups2OutlinedIcon />,
+  },
+  {
+    text: "Proveedores",
+    to: "/proveedores",
+    Icon: <LocalShippingOutlinedIcon />,
   },
   {
     text: "Compras",

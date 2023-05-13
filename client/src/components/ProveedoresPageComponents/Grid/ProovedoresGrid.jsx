@@ -1,19 +1,33 @@
-import { Box, IconButton, useTheme } from "@mui/material";
+import { Box, useTheme, IconButton } from "@mui/material";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
-import { DataGrid, esES as SpanishLocale } from "@mui/x-data-grid";
-import React from "react";
-import { HeaderList } from "./Data/HeaderList";
-import { FakeProductData } from "./Data/FakeProductData";
-import { esES } from "@mui/material/locale";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import { DataGrid, esES } from "@mui/x-data-grid";
+import React, { useEffect } from "react";
+import { HeaderListProveedores } from "./Data/HeaderList";
+import { useSelector, useDispatch } from "react-redux";
+import { deleteProvider } from "../../../features/crud/proveedoresSlice";
 
-export const ListaProductos = () => {
-  const theme = useTheme();
-  const handleDeleteClick = () => {};
+export const ProovedoresGrid = ({ setInfo, info, setEdit, setEditItem }) => {
+  const data = useSelector((state) => state.proveedor);
+  const dispatch = useDispatch();
 
-  const handleEditClick = () => {};
+  const handleSeeClick = (params) => {
+    const selectedObject = data.find((obj) => obj.id === params);
+    setInfo(selectedObject);
+  };
+
+  const handleEditClick = (params) => {
+    setEdit(true);
+    const selectedObject = data.find((p) => p.id === params);
+    setEditItem(selectedObject);
+  };
+
+  const handleDeleteClick = (params) => {
+    dispatch(deleteProvider(params));
+  };
   const columnasFinales = [
-    ...HeaderList,
+    ...HeaderListProveedores,
     {
       field: "acciones",
       headerName: "Acciones",
@@ -21,6 +35,9 @@ export const ListaProductos = () => {
       width: 150,
       renderCell: (params) => (
         <>
+          <IconButton onClick={() => handleSeeClick(params.id)}>
+            <VisibilityOutlinedIcon />
+          </IconButton>
           <IconButton
             onClick={() => handleEditClick(params.id)}
             color={
@@ -39,6 +56,8 @@ export const ListaProductos = () => {
       ),
     },
   ];
+
+  const theme = useTheme();
   return (
     <Box
       sx={{
@@ -47,7 +66,7 @@ export const ListaProductos = () => {
       }}
     >
       <DataGrid
-        rows={FakeProductData}
+        rows={data}
         columns={columnasFinales}
         initialState={{
           pagination: {
@@ -57,11 +76,8 @@ export const ListaProductos = () => {
           },
         }}
         pageSizeOptions={[5]}
-        checkboxSelection
-        disableRowSelectionOnClick
-        localeText={
-          SpanishLocale.components.MuiDataGrid.defaultProps.localeText
-        }
+        disableRowSelectionOnClick={true}
+        localeText={esES.components.MuiDataGrid.defaultProps.localeText}
         sx={{
           color: theme.palette.text.primary,
           "& .MuiDataGrid-cell": {

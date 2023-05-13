@@ -98,19 +98,20 @@ export const LineChart = () => {
     <Box
       sx={{
         width: "49%",
-        backgroundColor: "primary.main",
+        backgroundColor: "background.paper",
         height: "350px",
         mt: "10px",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         borderRadius: "5px",
+        boxShadow: 3,
       }}
     >
       <Box height="1%"></Box>
       <Box
         sx={{
-          backgroundColor: theme.palette.background.default,
+          backgroundColor: theme.palette.background.paper,
           width: "98%",
           height: "90%",
           margin: "auto",
