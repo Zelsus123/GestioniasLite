@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import {
   Clientes,
   Compras,
+  EmpleadosAndCargosPage,
   Home,
   Productos,
   Proveedores,
@@ -18,6 +19,7 @@ export const Router = () => {
       <Route path="/productos" element={<Productos />} />
       <Route path="/proveedores" element={<Proveedores />} />
       <Route path="/clientes" element={<Clientes />} />
+      <Route path="/empleados" element={<EmpleadosAndCargosPage />} />
     </Routes>
   );
 };
