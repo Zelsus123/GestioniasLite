@@ -7,9 +7,25 @@ const cargosSlice = createSlice({
   name: "cargos",
   initialState,
   reducers: {
-    addCargo: (state, action) => {},
-    editCargo: (state, action) => {},
-    deleteCargo: (state, action) => {},
+    addCargo: (state, action) => {
+      state.push(action.payload);
+    },
+    editCargo: (state, action) => {
+      const { id, Cargo, Descripcion, Permisos } = action.payload;
+      const foundCargo = state.find((cargo) => cargo.id === id);
+
+      if (foundCargo) {
+        foundCargo.Cargo = Cargo;
+        foundCargo.Descripcion = Descripcion;
+        foundCargo.Permisos = Permisos;
+      }
+    },
+    deleteCargo: (state, action) => {
+      const foundCargo = state.find((cargo) => cargo.id === action.payload);
+      if (foundCargo) {
+        state.splice(state.indexOf(foundCargo), 1);
+      }
+    },
   },
 });
 

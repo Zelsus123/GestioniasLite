@@ -4,6 +4,8 @@ import { DataGridEyC } from "./Grid/DataGridEyC";
 import { DetailsEyCComponent } from "./DetailsEyCComponent";
 import { CreateForm } from "./Forms/CreateEmpleadoForm";
 import { EditEmpleadoForm } from "./Forms/EditEmpleadoForm";
+import { CreateCargoForm } from "./Forms/CreateCargoForm";
+import { EditCargoForm } from "./Forms/EditCargoForm";
 
 export const LayoutEyCPage = ({
   data,
@@ -110,7 +112,27 @@ export const LayoutEyCPage = ({
             ) : (
               <CreateForm />
             )
-          ) : null}
+          ) : edit ? (
+            loading ? (
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                verticalAlign="center"
+                height="100%"
+              >
+                <CircularProgress size={100} color="primary" />
+              </Box>
+            ) : (
+              <EditCargoForm
+                editItem={editItem}
+                setEdit={setEdit}
+                setEditItem={setEditItem}
+              />
+            )
+          ) : (
+            <CreateCargoForm />
+          )}
         </Box>
         <Box
           sx={{

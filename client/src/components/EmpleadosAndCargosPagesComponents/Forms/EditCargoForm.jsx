@@ -9,11 +9,10 @@ import {
   Chip,
   Button,
 } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { addCargo } from "../../../features/crud/cargosSlice";
+import { useDispatch } from "react-redux";
+import { editCargo } from "../../../features/crud/cargosSlice";
 
-export const CreateCargoForm = () => {
-  const cargos = useSelector((state) => state.cargos);
+export const EditCargoForm = ({ editItem, setEdit, setEditItem }) => {
   const dispatch = useDispatch();
   const formSchema = yup.object({
     Cargo: yup.string().required("Debe ingresar el nombre del cargo"),
@@ -23,23 +22,23 @@ export const CreateCargoForm = () => {
     Permisos: yup.string().required("Debe ingresar los permisos"),
   });
   const initialValues = {
-    Cargo: "",
-    Descripcion: "",
-    Permisos: "",
+    Cargo: editItem.Cargo,
+    Descripcion: editItem.Descripcion,
+    Permisos: editItem.Permisos,
   };
   const formik = useFormik({
     initialValues,
     validationSchema: formSchema,
     onSubmit: (values, { resetForm }) => {
-      const id = cargos.length + 1;
-      const nuevoCargo = {
-        id,
+      const cargoEditado = {
+        id: editItem.id,
         Cargo: values.Cargo,
         Descripcion: values.Descripcion,
         Permisos: values.Permisos,
       };
-      dispatch(addCargo(nuevoCargo));
-      resetForm();
+      dispatch(editCargo(cargoEditado));
+      setEditItem(null);
+      setEdit(false);
     },
   });
   return (
